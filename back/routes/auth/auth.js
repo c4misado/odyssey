@@ -7,20 +7,19 @@ const bodyParser = require("body-parser")
 
 
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }))
 app.use(bodyParser)
 
 
 router.post('/signup', function (req, res, next) {
-    const data = req.body;
-    connection.query('INSERT INTO users SET ?', data, (err, result) =>{
-      if(err){
-        res.status(500).send("Error signing up!");
-      } else {
-        res.status(200).send(result);
-      }
-    })
-  });
+  const data = req.body;
+  connection.query('INSERT INTO users SET ?', data, (error, result) => {
+    if (error)
+      res.status(500).json({ flash: error.message });
+    else
+      res.status(200).json({ flash: "User has been signed up!" });
+  })
+});
 
 module.exports = router;
